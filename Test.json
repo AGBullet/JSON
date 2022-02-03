@@ -1,0 +1,255 @@
+{
+	"version:": "2022.02.01",
+	"settings": {
+		"project": {
+			"title": "Test for RDEV"
+		}
+	},
+	"security": {
+		"appGroup": {
+			"name": "TestApp"
+		},
+		"groups": [
+			{
+				"name": "Administrators",
+				"description": "Администраторы",
+				"parentGroup": "TestApp"
+			},
+			{
+				"name": "Users",
+				"description": "Пользователи",
+				"parentGroup": "TestApp"
+			}
+		],
+		"users": [
+			{
+				"name": "Administrator",
+				"description": "Администратор",
+				"login": "admin",
+				"password": "admin",
+				"email": "admin@mfc.ru",
+				"parentGroups": [
+					"Administrators"
+				]
+			},
+			{
+				"name": "User1",
+				"description": "User1",
+				"login": "user1",
+				"password": "user1",
+				"email": "user1@mfc.ru",
+				"parentGroups": [
+					"Users"
+				]
+			}
+		],
+		"rules": [
+			{
+				"groups": [
+					"Administrators"
+				],
+				"objects": [
+					"users",
+					"tasks",
+					"reminders",
+					"users_tasks",
+					"type"
+				],
+				"access": {
+					"read": "true",
+					"write": "true",
+					"create": "true",
+					"delete": "true"
+				}
+			},
+			{
+				"groups": [
+					"Users"
+				],
+				"objects": [
+					"users",
+					"tasks",
+					"reminders",
+					"users_tasks",
+					"type"
+				],
+				"access": {
+					"read": "true"
+				}
+			}
+		]
+	},
+	"types": [
+		{
+			"name": "TypeReminders",
+			"type": "SysENUM",
+			"displayName": "Тип напоминания",
+			"enum": [
+				{
+					"id": 1,
+					"value": "Будильник"
+				},
+				{
+					"id": 2,
+					"value": "Смс на телефон"
+				}
+			]
+		},
+		{
+			"name": "sysstring_type",
+			"type": "SysString",
+			"displayName": "Поле SysString"
+		},
+		{
+			"name": "sysint_type",
+			"type": "SysInt",
+			"displayName": "Поле SysInt"
+		},
+		{
+			"name": "systimedate_type",
+			"type": "SysTimeDate",
+			"displayName": "Поле SysTimeDate"
+		},
+		{
+			"name": "UsersID",
+			"type": "SysRelation",
+			"displayName": "ID_Users",
+			"relation": {
+				"table": "tasks",
+				"displayField": "ID_Users"
+			}
+		},
+		{
+			"name": "UsersID",
+			"type": "SysRelation",
+			"displayName": "ID_Users",
+			"relation": {
+				"table": "tasks_users",
+				"displayField": "ID_Users"
+			}
+		},
+		{
+			"name": "TasksID",
+			"type": "SysRelation",
+			"displayName": "ID_Tasks",
+			"relation": {
+				"table": "tasks_users",
+				"displayField": "ID_Tasks"
+			}
+		},
+		{
+			"name": "TasksID",
+			"type": "SysRelation",
+			"displayName": "ID_Tasks",
+			"relation": {
+				"table": "task",
+				"displayField": "ID_Tasks"
+			}
+		}
+	],
+	"tables": [
+		{
+			"name": "users",
+			"displayname": "Users",
+			"description": "В данной таблице будут находиться пользователи",
+			"fields": [
+				{
+					"name": "id",
+					"type": "SysInt",
+					"dispalyname": "ID"
+				},
+				{
+					"name": "name",
+					"type": "SysString",
+					"dispalyname": "Name"
+				},
+				{
+					"name": "password",
+					"type": "SysString",
+					"dispalyname": "Password"
+				},
+				{
+					"name": "email",
+					"type": "SysString",
+					"dispalyname": "Email"
+				},
+				{
+					"name": "phone",
+					"type": "SysString",
+					"dispalyname": "Phone"
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"displayname": "Tasks",
+			"description": "В данной таблице будут находиться задачи пользователей",
+			"fields": [
+				{
+					"name": "id",
+					"type": "SysInt",
+					"dispalyname": "ID"
+				},
+				{
+					"name": "name",
+					"type": "SysString",
+					"dispalyname": "Name"
+				},
+				{
+					"name": "id_users",
+					"type": "SysInt",
+					"dispalyname": "ID_Users"
+				}
+			]
+		},
+		{
+			"name": "reminders",
+			"displayname": "Reminders",
+			"description": "В данной таблице будут находиться напоминания к задачам пользователей",
+			"fields": [
+				{
+					"name": "id",
+					"type": "SysInt",
+					"dispalyname": "ID"
+				},
+				{
+					"name": "time",
+					"type": "SysTimeDate",
+					"dispalyname": "Time"
+				},
+				{
+					"name": "id_type",
+					"type": "SysInt",
+					"dispalyname": "ID_Type"
+				},
+				{
+					"name": "id_tasks",
+					"type": "SysInt",
+					"dispalyname": "ID_Tasks"
+				}
+			]
+		},
+		{
+			"name": "tasks_users",
+			"displayname": "Tasks_Users",
+			"description": "В данной таблице будут находиться связь между задачами и пользователями",
+			"fields": [
+				{
+					"name": "id",
+					"type": "SysInt",
+					"dispalyname": "ID"
+				},
+				{
+					"name": "id_tasks",
+					"type": "SysInt",
+					"dispalyname": "ID_Tasks"
+				},
+				{
+					"name": "id_users",
+					"type": "SysInt",
+					"dispalyname": "ID_Users"
+				}
+			]
+		}
+	]
+}
